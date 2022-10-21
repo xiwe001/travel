@@ -1,7 +1,117 @@
-import React from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { Col, Row, Spin,DatePicker,Space,Typography,Divider,Anchor,Menu } from "antd";
+import styles from './Detail.module.css'
+import { Header, Footer,ProductIntro } from "../../components";
+import { commentMockData } from "./mockup";
+import { ProductComments } from "../../components/productComments";
+import { productDetailSlice,getProductDetail } from "../../redux/productDetail/slice";
+import { useSelector } from "../../redux/hooks";
+import { useDispatch } from "react-redux";
 
 export const Detail: React.FC = () => {
-  const {id,name} = useParams()
-  return <h1>路游路线详情页面, 路线ID: {id}，名称是：{name}</h1>;
+  const { id, name } = useParams()
+
+  const {RangePicker}  = DatePicker
+  
+  const loading = useSelector((state) => state.productDetail.loading);
+  const error = useSelector((state) => state.productDetail.error);
+  const product = useSelector((state) => state.productDetail.data);
+
+  const mapDispatch = (dispatch) =>{
+    return {
+      getProducts:(id)=>{
+        dispatch(getProductDetail(id))
+      }
+    }
+  }
+
+  const dispatch = useDispatch();
+  useEffect(() => {
+    //dispatch(getProductDetail(id))
+
+    mapDispatch(dispatch).getProducts(id)
+  }, [])
+
+
+  if (loading) {
+    return <Spin size="large" style={{
+      marginTop: 200,
+      marginBottom: 200,
+      marginLeft: "auto",
+      marginRight: "auto",
+      width: "100%"
+    }} />
+  }
+
+  if (error) {
+    return <div>网站出错</div>
+  }
+
+  return <>
+    <Header />
+    <div className={styles["page-content"]}>
+
+      <div className={styles["product-intro-container"]}>
+        <Row>
+          <Col span={13}>
+          <ProductIntro
+              title={product.title}
+              shortDescription={product.description}
+              price={product.originalPrice}
+              coupons={product.coupons}
+              points={product.points}
+              discount={product.price}
+              rating={product.rating}
+              pictures={product.touristRoutePictures.map((p) => p.url)}
+            />
+          </Col>
+          <Col span={11}><RangePicker style={{marginTop:20}}/></Col>
+        </Row>
+      </div>
+      <Anchor className={styles["product-detail-anchor"]}>
+        <Menu mode="horizontal">
+          <Menu.Item key="1">
+            <Anchor.Link href="#feature" title="产品特色"></Anchor.Link>
+          </Menu.Item>
+          <Menu.Item key="3">
+            <Anchor.Link href="#fees" title="费用"></Anchor.Link>
+          </Menu.Item>
+          <Menu.Item key="4">
+            <Anchor.Link href="#notes" title="预订须知"></Anchor.Link>
+          </Menu.Item>
+          <Menu.Item key="5">
+            <Anchor.Link href="#comments" title="用户评价"></Anchor.Link>
+          </Menu.Item>
+        </Menu>
+      </Anchor>
+      {/* 产品特色 */}
+      <div id="feature" className={styles["product-detail-container"]}>
+        <Divider orientation={"center"}>
+          <Typography.Title level={3}>产品特色</Typography.Title>
+        </Divider>
+        <div
+          dangerouslySetInnerHTML={{ __html: product.features }}
+          style={{ margin: 50 }}
+        >          
+        </div>
+      </div>
+      <div id='fees' className={styles["product-detail-container"]}>
+
+      </div>
+      <div id='notes' className={styles["product-detail-container"]}>
+
+      </div>
+      <div id='comments' className={styles["product-detail-container"]}>
+      <Divider orientation={"center"}>
+          <Typography.Title level={3}>用户评价</Typography.Title>
+        </Divider>
+        <div style={{margin:40}} >        
+          <ProductComments data={commentMockData} />
+        </div>
+      </div>
+    </div>
+    <Footer />
+  </>;
 };

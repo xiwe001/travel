@@ -15,7 +15,7 @@ export const productList1 = [
     ],
   },
   {
-    id: 2,
+    id: '63f50a47-5198-4c65-974b-f54f56a89cd5',
     title: "摩洛哥撒哈拉沙漠+卡萨布兰卡+马拉喀什+舍夫沙...",
     price: "13290",
     touristRoutePictures: [
@@ -25,7 +25,7 @@ export const productList1 = [
     ],
   },
   {
-    id: 3,
+    id: '75171173-132d-4127-bab9-3fc8451feffa',
     title: "越南胡志明市+美奈+芽庄+河内7日6晚跟团游(4钻)...",
     price: "4000",
     touristRoutePictures: [
@@ -35,7 +35,7 @@ export const productList1 = [
     ],
   },
   {
-    id: 4,
+    id: 'b911c8b2-6c8a-4c73-915f-63e3821575f0',
     title: "迪拜+阿布扎比6日跟团游(5钻)·【携程国旅纯玩...",
     price: "7399",
     touristRoutePictures: [
@@ -45,7 +45,7 @@ export const productList1 = [
     ],
   },
   {
-    id: 5,
+    id: 'c7eb8974-103b-4bfe-9a57-a8a7371160df',
     title: "泰国曼谷+芭堤雅6日5晚跟团游(5钻)·【纯玩】『可...",
     price: "3499",
     touristRoutePictures: [
